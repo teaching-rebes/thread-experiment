@@ -72,10 +72,10 @@ void example_multithreads() {
   for (int i = 0; i < 10000; i++)
     cout << "*";
   cout << endl
-       << "example_main_thread has done its work - waiting for other thread.."
+       << "example_multithreads has done its work - waiting for other thread.."
        << endl;
   threadObj.join();
-  cout << endl << "example_main_thread() exit" << endl;
+  cout << endl << "example_multithreads() exit" << endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
