@@ -1,4 +1,5 @@
 #include "procsthreads.h"
+#include <future>
 #include <iostream>
 #include <thread>
 
@@ -79,6 +80,34 @@ void example_multithreads() {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Part 3: Waiting for the result of threads with "future"
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// "complicated" calculation taking some time: sum up a number of random values
+double calc_random_sum(long nr_values) {
+  srand(time(NULL)); // initialize the random number generator
+
+  double result = 0.0;
+  for (long i = 0; i < nr_values; i++)
+    result += double(rand()) / double((RAND_MAX));
+  return result;
+}
+
+void example_futures() {
+  auto s50000 = std::async(calc_random_sum, 50000);
+  auto s90000 = std::async(calc_random_sum, 90000);
+  auto s100000 = std::async(calc_random_sum, 100000);
+
+  // here we could do some other work...
+
+  // collect results of asynchroneously executed threads:
+  double total_sum = s50000.get() + s90000.get() + s100000.get();
+  cout << endl
+       << "example_futures has calculated a total sum of: " << total_sum
+       << endl;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // main method
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,5 +115,6 @@ int main() {
   // Note: uncomment the part that should be executed:
   // example_win_process();
   // example_multithreads();
+  // example_futures();
   return 0;
 }
